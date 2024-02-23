@@ -1,2 +1,23 @@
-User-agent: *
-Disallow: 
+Home
+- change the attire and etiquette to a gallery based description 
+- change the image placeholders
+
+Events
+- change image header
+- infos about the 2 performers
+
+Gallery 
+- change image header
+- change the text and add descriptions
+- add images to the placeholder
+
+About
+- change image header
+- add text and description
+- org and sponsors logo (team members/orgs)
+
+Contact
+- change image header
+- change the contact form design 
+
+check for typos and errors to all pages including the responsive designs.

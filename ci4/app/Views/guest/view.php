@@ -1,4 +1,3 @@
-<h2><?= esc($guest['title']) ?></h2>
 <p><?= esc($guest['name']) ?></p>
 <p><?= esc($guest['email']) ?></p>
 <p><?= esc($guest['website']) ?></p>

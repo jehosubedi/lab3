@@ -9,7 +9,7 @@
         <div class="main">
             <?= esc($guest_item['name']) ?>
         </div>
-        <p><a href="./guest/<?= esc($guest_item['email'], 'url') ?>">View Guest Details</a></p>
+        <p><a href="./guests/<?= esc($guest_item['email'], 'url') ?>">View Guest Details</a></p>
 
     <?php endforeach ?>
 

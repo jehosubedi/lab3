@@ -44,7 +44,7 @@ class Guests extends BaseController
         helper('form');
 
         return view('templates/header', ['title' => 'Create a guest item'])
-            . view('guests/create')
+            . view('guest/create')
             . view('templates/footer');
     }
 
@@ -52,37 +52,34 @@ class Guests extends BaseController
     {
         helper('form');
 
-        $data = $this->request->getPost(['name', 'email', 'website', 'comment', 'gender']);
+        $data = [
+            'name' => $this->request->getPost('name'),
+            'email' => $this->request->getPost('email'),
+            'website' => $this->request->getPost('website'),
+            'comment' => $this->request->getPost('comment'),
+            'gender' => $this->request->getPost('gender')
+        ];
 
-        // Checks whether the submitted data passed the validation rules.
-        if (! $this->validateData($data, [
+        // Validation rules
+        $rules = [
             'name' => 'required|max_length[255]|min_length[3]',
-            'email' => 'required|max_length[255]|min_length[3]',
-            'website' => 'required|max_length[255]|min_length[3]',
-            'comment'  => 'required|max_length[5000]|min_length[10]',
-            'gender' => 'required|max_length[255]|min_length[3]',
-        ])) {
-            // The validation fails, so returns the form.
-            return $this->new();
+            'email' => 'required|max_length[255]|valid_email',
+            'website' => 'required|max_length[255]|valid_url',
+            'comment' => 'required|max_length[5000]|min_length[10]',
+            'gender' => 'required|max_length[255]|min_length[3]'
+        ];
+
+        // Validation
+        if (!$this->validate($rules)) {
+            // Validation failed, return to the form with errors
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        // Gets the validated data.
-        $post = $this->validator->getValidated();
+        // Data is validated, proceed to save it
+        $model = model(GuestModel::class);
 
-        $model = model(GuestsModel::class);
+        $model->save($data);
 
-        $model->save([
-            'name' => $post['name'],
-            'email' => $post['email'],
-            'website' => $post['website'],
-            'comment' => $post['comment'],
-            'gender' => $post['gender'],
-            //'email'  => url_title($post['title'], '-', true),
-            //'body'  => $post['body'], 
-        ]);
-
-        return view('templates/header', ['title' => 'Create a guest item'])
-            . view('guests/success')
-            . view('templates/footer');
+        return redirect()->to('/guests')->with('success', 'Guest created successfully');
     }
 } 
